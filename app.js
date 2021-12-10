@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
+}
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,7 +14,7 @@ const { TextEncoder, TextDecoder } = require("util");
 
 //Database Connection
 var mongoose = require('mongoose');
-const dbUrl = 'mongodb+srv://dishtv-monitor:DishTV$123@cluster0.6zt4l.mongodb.net/test'
+const dbUrl = process.env.DB_URL
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true, 
