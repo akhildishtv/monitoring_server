@@ -14,6 +14,23 @@ const saveAPIData = async (req, res) => {
     }
 }
 
+const getAPIData = async (req, res) => {
+    let postData = req.query;
+    try {
+        let query = {
+
+        }
+        let data = await APISCHEMA.find(query)
+        if (data) {
+            return res.json({ data: data, status: "Success", code: 200, msg: "Data Saved Successfully.!" })
+        }
+    } catch (err) {
+        if (err) {
+            return res.json({ status: "Failure", code: 301, msg: "Something went wrong.!", err: err });
+        }
+    }
+}
+
 let saveData = body => new Promise((resolve, reject) => {
     APISCHEMA.create(body, (err, data) => {
         if (err) {
@@ -27,3 +44,5 @@ let saveData = body => new Promise((resolve, reject) => {
 
 
 exports.saveAPIData = saveAPIData;
+exports.getAPIData = getAPIData;
+
