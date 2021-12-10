@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
+var APICONTROLLER = require('../controller/api.controller')
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  console.log("TEST")
-});
+router.post('/saveAPIData', APICONTROLLER.saveAPIData);
 
 module.exports = router;
