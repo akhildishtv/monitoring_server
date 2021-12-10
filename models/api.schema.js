@@ -4,7 +4,13 @@ var Schema = mongoose.Schema;
 var Schema = new Schema(
     {
         title: {
-            type: String, required: "title name is required."
+            type: String,
+        },
+        responseTime: {
+            type: String,
+        },
+        hitTime: {
+            type: String,
         },
         isActive: {
             type: Boolean, default: true

@@ -2,6 +2,7 @@ var APISCHEMA = require('../models/api.schema')
 
 const saveAPIData = async (req, res) => {
     let postData = req.body;
+    console.log(postData,"*/***/*//*/*/*/*/*/*/*/*/*/*/*/*/*/*/*")
     try {
         let data = await saveData(postData)
         if (data) {
