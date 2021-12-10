@@ -6,9 +6,6 @@ var Schema = new Schema(
         title: {
             type: String, required: "title name is required."
         },
-        abbreviation: {
-            type: String, default: ""
-        },
         isActive: {
             type: Boolean, default: true
         },
