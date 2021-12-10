@@ -3,12 +3,24 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-// import DB from "./db"
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
-// var DB = require('./db/index')
 var app = express();
 const { TextEncoder, TextDecoder } = require("util");
+
+//Database Connection
+var mongoose = require('mongoose');
+const dbUrl = 'mongodb+srv://dishtv-monitor:DishTV$123@cluster0.6zt4l.mongodb.net/test'
+
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open",() =>{
+    console.log("Database connected");
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
