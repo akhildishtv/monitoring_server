@@ -1,4 +1,6 @@
 var APISCHEMA = require('../models/api.schema')
+// import moment from 'moment';
+// const moment = require("moment");
 
 const saveAPIData = async (req, res) => {
     let postData = req.body;
@@ -15,17 +17,20 @@ const saveAPIData = async (req, res) => {
 }
 
 const getAPIData = async (req, res) => {
-    let postData = req.query;
+    let postData = req.body;
     try {
         let query = {
-
+            title: postData.title,
+            "isActive": true,
+            "isDeleted": false,
         }
-        let data = await APISCHEMA.find(query)
+        var data = await APISCHEMA.find(query)
         if (data) {
             return res.json({ data: data, status: "Success", code: 200, msg: "Data Saved Successfully.!" })
         }
     } catch (err) {
         if (err) {
+            console.log(err,"ERROR")
             return res.json({ status: "Failure", code: 301, msg: "Something went wrong.!", err: err });
         }
     }
@@ -40,8 +45,6 @@ let saveData = body => new Promise((resolve, reject) => {
         }
     });
 });
-
-
 
 exports.saveAPIData = saveAPIData;
 exports.getAPIData = getAPIData;
