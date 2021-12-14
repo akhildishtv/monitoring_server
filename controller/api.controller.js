@@ -1,6 +1,4 @@
 var APISCHEMA = require('../models/api.schema')
-// import moment from 'moment';
-// const moment = require("moment");
 
 const saveAPIData = async (req, res) => {
     let postData = req.body;
