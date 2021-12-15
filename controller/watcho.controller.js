@@ -81,6 +81,39 @@ let videoPlayerAPI = () => {
     }
 }
 
+let GetActiveSubscriptions = () => {
+    try {
+
+        var options = {
+            'method': 'GET',
+            'url': 'https://ottmobileapis.dishtv.in/API/SubscriptionManagement/GetActiveSubscriptions',
+            'headers': {
+                'Cookie': 'ApplicationGatewayAffinity=87baa15aec7e2dc29f7549994773889e; ApplicationGatewayAffinityCORS=87baa15aec7e2dc29f7549994773889e'
+            }
+        };
+        const startTime = new Date().getTime();
+        request(options, function (error, response) {
+            if (response) {
+                const endTime = new Date().getTime();
+                const diff = (endTime - startTime) / 1000
+                let value = {
+                    title: 'ActiveSubscriptionsAPI',
+                    responseTime: diff,
+                    hitTime: startTime
+                }
+                console.log(value)
+                if (diff > 1) {
+                    saveData(value)
+                }
+            }
+            else {
+                throw new Error(error);
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 let saveData = body => new Promise((resolve, reject) => {
     APISCHEMA.create(body, (err, data) => {
         if (err) {
@@ -93,3 +126,4 @@ let saveData = body => new Promise((resolve, reject) => {
 
 exports.videoPlayerAPI = videoPlayerAPI;
 exports.webSeriesAPI = webSeriesAPI;
+exports.GetActiveSubscriptions = GetActiveSubscriptions

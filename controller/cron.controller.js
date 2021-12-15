@@ -7,7 +7,7 @@ cron.schedule("*/30 * * * * *", function () {
     //Watcho APIs
     WATCHOCONTROLLER.webSeriesAPI()
     WATCHOCONTROLLER.videoPlayerAPI()
-
+    WATCHOCONTROLLER.GetActiveSubscriptions()
     //Analytics APIs
     ANALYTICSCONTROLLER.NewsChannelsAPI()
     ANALYTICSCONTROLLER.ProgramsAPI()
