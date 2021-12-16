@@ -8,6 +8,7 @@ cron.schedule("*/30 * * * * *", function () {
     WATCHOCONTROLLER.webSeriesAPI()
     WATCHOCONTROLLER.videoPlayerAPI()
     WATCHOCONTROLLER.GetActiveSubscriptions()
+    WATCHOCONTROLLER.KalturaLoginAPI()
     //Analytics APIs
     ANALYTICSCONTROLLER.NewsChannelsAPI()
     ANALYTICSCONTROLLER.ProgramsAPI()

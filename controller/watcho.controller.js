@@ -114,6 +114,58 @@ let GetActiveSubscriptions = () => {
         throw new Error(error);
     }
 }
+
+let KalturaLoginAPI = () => {
+    try {
+        var options = {
+            'method': 'POST',
+            'url': 'https://restv4-as.ott.kaltura.com/v5_0_3/api_v3/service/ottuser/action/login',
+            'headers': {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "partnerId": 487,
+                "username": 47828792,
+                "password": "\"vF0+aO/4JiWB4hVacGruSnFyrhCmlWlZzECk99HwOEfLoTNNrXQSoCWVm36SBdwPBPMEz27XgVbHdNDX3OABBA==\"",
+                "extraParams": {
+                    "": {
+                        "objectType": "KalturaStringValue",
+                        "value": ""
+                    }
+                },
+                "udid": "Y5BN6MTD7HI4E",
+                "ignoreNull": true,
+                "format": 1,
+                "apiVersion": "5.0.3",
+                "clientTag": "swift:18-07-03",
+                "ks": "djJ8NDg3fKuplFLelV6aRiZLTDjGaXPN83CN_hweLsPtWH3a_flIbYd54VhCDydW5LmRr5BBz0w2BP2GtNmUzKCVH27IFuadAn0rArR5CMn8algNNhcnHZDNTaRnf7OGcp6hcFihG16wt1VmMAnfnu__UDxieAUNvgLdu-daqDcJdmAJTe6qUoqS0NtywzQ-NmkWMoITgu5nyVNWXiqdH_neuBEGfwbxvtb05CSthuj8RUOsKEj-_BweHcAhoWb3gj7UomsIEpcMAC9iKACxCig4_6uvMFWcskqM1imb71wHKKvguzgSG8zEKNGjHdEoNbzCouz_4w=="
+            })
+
+        };
+        const startTime = new Date().getTime();
+        request(options, function (error, response) {
+            if (response) {
+                const endTime = new Date().getTime();
+                const diff = (endTime - startTime) / 1000
+                let value = {
+                    title: 'kalturaLoginAPI',
+                    responseTime: diff,
+                    hitTime: startTime
+                }
+                console.log(value)
+                if (diff > 1) {
+                    saveData(value)
+                }
+            }
+            else {
+                throw new Error(error);
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
 let saveData = body => new Promise((resolve, reject) => {
     APISCHEMA.create(body, (err, data) => {
         if (err) {
@@ -126,4 +178,5 @@ let saveData = body => new Promise((resolve, reject) => {
 
 exports.videoPlayerAPI = videoPlayerAPI;
 exports.webSeriesAPI = webSeriesAPI;
-exports.GetActiveSubscriptions = GetActiveSubscriptions
+exports.GetActiveSubscriptions = GetActiveSubscriptions;
+exports.KalturaLoginAPI = KalturaLoginAPI
