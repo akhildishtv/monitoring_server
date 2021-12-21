@@ -1,6 +1,9 @@
-if(process.env.NODE_ENV !== "production") {
-  require('dotenv').config();
-}
+// if(process.env.NODE_ENV !== "production") {
+//   require('dotenv').config();
+// }
+"use strict";
+var http = require("http");
+var debug = require("debug");
 var cron = require("./controller/cron.controller")
 var createError = require('http-errors');
 var express = require('express');
@@ -8,6 +11,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
+var Config = require("./config/default");
 
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -42,12 +46,9 @@ app.use(function (req, res, next) {
   });
 //Database Connection
 var mongoose = require('mongoose');
-const dbUrl = process.env.DB_URL
+// const dbUrl = process.env.DB_URL
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-});
+mongoose.connect(Config.ENV.database.url, Config.ENV.database.options);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open",() =>{
@@ -81,5 +82,87 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+ var port = normalizePort(process.env.PORT || Config.ENV.port);
+ app.set("port", port);
+ 
+ /**
+  * Create HTTP server.
+  */
+ 
+ var server = http.createServer(app);
+ 
+ /**
+  * Listen on provided port, on all network interfaces.
+  */
+ 
+ server.listen(port, function () {
+   console.log("The Server Has Started on PORT:", port);
+ });
+ server.on("error", onError);
+ server.on("listening", onListening);
+ 
+ server.timeout = 20 * 60 * 1000;
+//  socketService(server)
+ 
+ /**
+  * Normalize a port into a number, string, or false.
+  */
+ 
+ function normalizePort(val) {
+   var port = parseInt(val, 10);
+ 
+   if (isNaN(port)) {
+     // named pipe
+     return val;
+   }
+ 
+   if (port >= 0) {
+     // port number
+     return port;
+   }
+ 
+   return false;
+ }
+ 
+ /**
+  * Event listener for HTTP server "error" event.
+  */
+ 
+ function onError(error) {
+   if (error.syscall !== "listen") {
+     throw error;
+   }
+ 
+   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+ 
+   // handle specific listen errors with friendly messages
+   switch (error.code) {
+     case "EACCES":
+       console.error(bind + " requires elevated privileges");
+       process.exit(1);
+       break;
+     case "EADDRINUSE":
+       console.error(bind + " is already in use");
+       process.exit(1);
+       break;
+     default:
+       throw error;
+   }
+ }
+ 
+ /**
+  * Event listener for HTTP server "listening" event.
+  */
+ 
+ function onListening() {
+   var addr = server.address();
+   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+   debug("Listening on " + bind);
+ }
 
 module.exports = app;
