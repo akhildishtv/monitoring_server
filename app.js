@@ -1,16 +1,48 @@
+if(process.env.NODE_ENV !== "production") {
+  require('dotenv').config();
+}
+var cron = require("./controller/cron.controller")
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require("cors");
+
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 var app = express();
-const { TextEncoder, TextDecoder } = require("util");
-
+// const { TextEncoder, TextDecoder } = require("util");
+app.options("*", cors());
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    // Request methods you wish to allow
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    // Request headers you wish to allow
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "X-Requested-With,content-type,authorization,secret_token"
+    );
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    // Pass to next layer of middleware
+    console.log(
+      "Router Log | Request Recived | " +
+        req.protocol +
+        "://" +
+        req.get("host") +
+        req.originalUrl
+    );
+    next();
+  });
 //Database Connection
 var mongoose = require('mongoose');
-const dbUrl = 'mongodb+srv://dishtv-monitor:DishTV$123@cluster0.6zt4l.mongodb.net/test'
+const dbUrl = process.env.DB_URL
 
 mongoose.connect(dbUrl, {
   useNewUrlParser: true, 
