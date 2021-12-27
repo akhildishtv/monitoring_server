@@ -101,7 +101,6 @@ let GetActiveSubscriptions = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                console.log(value)
                 if (diff > 1) {
                     saveData(value)
                 }
@@ -152,7 +151,6 @@ let KalturaLoginAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                console.log(value)
                 if (diff > 1) {
                     saveData(value)
                 }
