@@ -24,11 +24,10 @@ const getAPIData = async (req, res) => {
         }
         var data = await APISCHEMA.find(query)
         if (data) {
-            return res.json({ data: data, status: "Success", code: 200, msg: "Data Saved Successfully.!" })
+            return res.json({ data: data, status: "Success", code: 200, msg: "Data Found Successfully.!" })
         }
     } catch (err) {
         if (err) {
-            console.log(err,"ERROR")
             return res.json({ status: "Failure", code: 301, msg: "Something went wrong.!", err: err });
         }
     }

@@ -39,9 +39,10 @@ let webSeriesAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                if (diff > 1) {
-                    saveData(value)
-                }
+                saveData(value)
+                // if (diff > 1) {
+                //     saveData(value)
+                // }
             }
             else {
                 throw new Error(error);
@@ -68,9 +69,10 @@ let videoPlayerAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                if (diff > 1) {
-                    saveData(value)
-                }
+                saveData(value)
+                // if (diff > 1) {
+                //     saveData(value)
+                // }
             }
             else {
                 throw new Error(error);
@@ -101,10 +103,10 @@ let GetActiveSubscriptions = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                console.log(value)
-                if (diff > 1) {
-                    saveData(value)
-                }
+                saveData(value)
+                // if (diff > 1) {
+                //     saveData(value)
+                // }
             }
             else {
                 throw new Error(error);
@@ -152,10 +154,10 @@ let KalturaLoginAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                console.log(value)
-                if (diff > 1) {
-                    saveData(value)
-                }
+                saveData(value)
+                // if (diff > 1) {
+                //     saveData(value)
+                // }
             }
             else {
                 throw new Error(error);
