@@ -1,5 +1,6 @@
 var APISCHEMA = require('../models/api.schema')
 var request = require('request');
+const EMAILCONTROLLER = require('./email.controller')
 
 let webSeriesAPI = () => {
     try {
@@ -30,6 +31,7 @@ let webSeriesAPI = () => {
             })
         };
         const startTime = new Date().getTime();
+        const emailTime = new Date()
         request(options, function (error, response) {
             if (response) {
                 const endTime = new Date().getTime();
@@ -39,10 +41,11 @@ let webSeriesAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                    EMAILCONTROLLER.sendEmail('Web Series ',emailTime)
+                }
             }
             else {
                 throw new Error(error);
@@ -60,6 +63,7 @@ let videoPlayerAPI = () => {
             'url': 'http://a-fds.youborafds01.com/data?outputformat=json&system=dishindiadev&pluginVersion=6.7.35-adapterless-js&requestNumber=0.9426220496137825&timemark=1638955838474',
         };
         const startTime = new Date().getTime();
+        const emailTime = new Date()
         request(options, function (error, response) {
             if (response) {
                 const endTime = new Date().getTime();
@@ -69,10 +73,11 @@ let videoPlayerAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                    EMAILCONTROLLER.sendEmail('Video Player ',emailTime)
+                }
             }
             else {
                 throw new Error(error);
@@ -94,6 +99,7 @@ let GetActiveSubscriptions = () => {
             }
         };
         const startTime = new Date().getTime();
+        const emailTime = new Date()
         request(options, function (error, response) {
             if (response) {
                 const endTime = new Date().getTime();
@@ -103,10 +109,11 @@ let GetActiveSubscriptions = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                    EMAILCONTROLLER.sendEmail('Active Subscription ',emailTime)
+                }
             }
             else {
                 throw new Error(error);
@@ -144,6 +151,7 @@ let KalturaLoginAPI = () => {
             })
 
         };
+        const emailTime = new Date()
         const startTime = new Date().getTime();
         request(options, function (error, response) {
             if (response) {
@@ -154,10 +162,11 @@ let KalturaLoginAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                    EMAILCONTROLLER.sendEmail('Kaltura ', emailTime)
+                }
             }
             else {
                 throw new Error(error);

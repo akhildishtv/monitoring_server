@@ -32,10 +32,10 @@ let newsChannelsAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                }
             }
             else {
                 throw new Error(error);
@@ -71,10 +71,10 @@ let programsAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                }
             }
             else {
                 throw new Error(error);
@@ -110,10 +110,10 @@ let languagesAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 1) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 1) {
+                    saveData(value)
+                }
             }
             else {
                 throw new Error(error);
@@ -149,10 +149,10 @@ let locationsAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                saveData(value)
-                // if (diff > 30) {
-                //     saveData(value)
-                // }
+                // saveData(value)
+                if (diff > 30) {
+                    saveData(value)
+                }
             }
             else {
                 throw new Error(error);

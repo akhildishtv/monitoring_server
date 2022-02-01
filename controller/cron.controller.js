@@ -3,6 +3,7 @@ const APICONTROLLER = require("./api.controller")
 const WATCHOCONTROLLER = require('./watcho.controller')
 const ANALYTICSCONTROLLER = require('./analytics.controller')
 
+
 cron.schedule("*/30 * * * * *", function () {
     //Watcho APIs
     WATCHOCONTROLLER.webSeriesAPI()
@@ -15,8 +16,6 @@ cron.schedule("*/30 * * * * *", function () {
     ANALYTICSCONTROLLER.LanguagesAPI()
 });
 
-
 cron.schedule("*/45 * * * * *", function () {
     ANALYTICSCONTROLLER.LocationsAPI()
 });
-
