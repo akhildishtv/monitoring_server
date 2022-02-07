@@ -6,10 +6,35 @@ const { query } = require('express');
 let webSeriesAPI = async () => {
     try {
         let newData = await webSeriesRequest()
-        if (newData.responseTime > 1) {
-            const emailTime = new Date()
-            await saveData(newData)
-            await EMAILCONTROLLER.sendEmail('Web Series ', emailTime)
+        let query = {
+            title: 'WebSeriesAPI',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Web Series ', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Web Series ', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
         }
     } catch (error) {
         throw new Error(error);
@@ -19,10 +44,35 @@ let webSeriesAPI = async () => {
 let videoPlayerAPI = async () => {
     try {
         let newData = await videoPlayerRequest()
-        if (newData.responseTime > 1) {
-            const emailTime = new Date()
-            await saveData(newData)
-            await EMAILCONTROLLER.sendEmail('Video Player ', emailTime)
+        let query = {
+            title: 'VideoPlayerAPI',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Video Player ', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Video Player ', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
         }
     } catch (error) {
         throw new Error(error);
@@ -32,10 +82,35 @@ let videoPlayerAPI = async () => {
 let GetActiveSubscriptions = async () => {
     try {
         let newData = await GetActiveSubscriptionsRequest()
-        if (newData.responseTime > 1) {
-            const emailTime = new Date()
-            await saveData(newData)
-            await EMAILCONTROLLER.sendEmail('Active Subscription ', emailTime)
+        let query = {
+            title: 'ActiveSubscriptionsAPI',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Active Subscription ', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Active Subscription ', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
         }
     } catch (error) {
         throw new Error(error);
@@ -50,11 +125,30 @@ let KalturaLoginAPI = async () => {
             "isActive": true,
             "isDeleted": false,
         }
-        var data = await getData(query)
-        if (newData.responseTime > 1) {
-            const emailTime = new Date()
-            await saveData(newData)
-            await EMAILCONTROLLER.sendEmail('Kaltura ', emailTime)
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Kaltura ', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Kaltura ', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
         }
     } catch (error) {
         throw new Error(error);
