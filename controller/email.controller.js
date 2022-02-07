@@ -48,5 +48,25 @@ let sendEmail = (apiName, time) => {
     });
 }
 
+let sendEmailSuccess = (apiName, time) => {
+    var mailOptions = {
+        from: `"Watcho Monitoring Alert" <${CONFIG.emailInfo.user}>`, // sender address
+        to: CONFIG.emailInfo.receiver, // list of receivers
+        subject: 'Watcho Monitoring Alert.!',
+        template: 'success', // the name of the template file i.e email.handlebars
+        context: {
+            API_Name: apiName, // replace {{name}} with Adebola
+            TIME: time // replace {{company}} with My Company
+        }
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return console.log(error);
+        }
+        console.log(info.response)
+    });
+}
+
 exports.sendEmail = sendEmail;
+exports.sendEmailSuccess = sendEmailSuccess
 

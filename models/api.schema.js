@@ -17,6 +17,9 @@ var Schema = new Schema(
         },
         isDeleted: {
             type: Boolean, default: false
+        },
+        flag: {
+            type: Number
         }
     }, {
     timestamps:

@@ -1,37 +1,115 @@
 var APISCHEMA = require('../models/api.schema')
 var request = require('request');
-const EMAILCONTROLLER = require('./email.controller')
+const EMAILCONTROLLER = require('./email.controller');
+const { query } = require('express');
 
-let webSeriesAPI = () => {
+let webSeriesAPI = async () => {
     try {
-        var options = {
-            'method': 'POST',
-            'url': 'https://restv4-as.ott.kaltura.com/v5_0_3/api_v3/service/asset/action/list',
-            'headers': {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "apiVersion": "5.1.2.17630",
-                "ks": "djJ8NDg3fPbH1m4lNsxW3bfPkL1_7mAaDV5rgRqJ5vsW_G5-CHPWSl8Xvt706-5Ydvone7awyfygdn4ozhz1fQR-u_nbe0p5Jdup0eyt3kakQBMzuXHhKHRtSkPrv8JnKGZaSC56Or4BRRPPOiiz2QjcGRU5zMoFsqrGlQeUGZ6e4rC0j6E-2MwsaSokWltChak8VIw-Uy_yCXITpkns0VjBRoLAY0RBH4xVDunD7FHEP2RctSvUIWTPD3d2V8l53FQiTIut6MUjtWL7EWfdSTk4nVVfvhv0Y0lnGamNjbjQg9if1pD64AD-s4f9Uvpcza2ibgdF1mLODGru4z7-zZKi0_PWt4PgAZY2tAq65_l05d3i9JtY",
-                "filter": {
-                    "objectType": "KalturaSearchAssetFilter",
-                    "typeIn": "656",
-                    "kSql": "(and SeriesId = 'SID_BEFALTU_08092020' Season number='1')",
-                    "dynamicOrderBy": {
-                        "orderBy": "META_ASC",
-                        "objectType": "KalturaDynamicOrderBy",
-                        "name": "Episode Number"
-                    }
-                },
-                "pager": {
-                    "objectType": "KalturaFilterPager",
-                    "pageIndex": "1",
-                    "pageSize": "500"
+        let newData = await webSeriesRequest()
+        if (newData.responseTime > 1) {
+            const emailTime = new Date()
+            await saveData(newData)
+            await EMAILCONTROLLER.sendEmail('Web Series ', emailTime)
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+let videoPlayerAPI = async () => {
+    try {
+        let newData = await videoPlayerRequest()
+        if (newData.responseTime > 1) {
+            const emailTime = new Date()
+            await saveData(newData)
+            await EMAILCONTROLLER.sendEmail('Video Player ', emailTime)
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+let GetActiveSubscriptions = async () => {
+    try {
+        let newData = await GetActiveSubscriptionsRequest()
+        if (newData.responseTime > 1) {
+            const emailTime = new Date()
+            await saveData(newData)
+            await EMAILCONTROLLER.sendEmail('Active Subscription ', emailTime)
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+let KalturaLoginAPI = async () => {
+    try {
+        let newData = await KalturaLoginAPIRequest()
+        let query = {
+            title: 'kalturaLoginAPI',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await getData(query)
+        if (newData.responseTime > 1) {
+            const emailTime = new Date()
+            await saveData(newData)
+            await EMAILCONTROLLER.sendEmail('Kaltura ', emailTime)
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+let saveData = body => new Promise((resolve, reject) => {
+    APISCHEMA.create(body, (err, data) => {
+        if (err) {
+            return reject(err);
+        } else {
+            resolve(data);
+        }
+    });
+});
+
+let getData = query => new Promise((resolve, reject) => {
+    APISCHEMA.find(query, (err, data) => {
+        if (err) {
+            return reject(err);
+        } else {
+            resolve(data);
+        }
+    });
+});
+
+let webSeriesRequest = () => {
+    var options = {
+        'method': 'POST',
+        'url': 'https://restv4-as.ott.kaltura.com/v5_0_3/api_v3/service/asset/action/list',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "apiVersion": "5.1.2.17630",
+            "ks": "djJ8NDg3fPbH1m4lNsxW3bfPkL1_7mAaDV5rgRqJ5vsW_G5-CHPWSl8Xvt706-5Ydvone7awyfygdn4ozhz1fQR-u_nbe0p5Jdup0eyt3kakQBMzuXHhKHRtSkPrv8JnKGZaSC56Or4BRRPPOiiz2QjcGRU5zMoFsqrGlQeUGZ6e4rC0j6E-2MwsaSokWltChak8VIw-Uy_yCXITpkns0VjBRoLAY0RBH4xVDunD7FHEP2RctSvUIWTPD3d2V8l53FQiTIut6MUjtWL7EWfdSTk4nVVfvhv0Y0lnGamNjbjQg9if1pD64AD-s4f9Uvpcza2ibgdF1mLODGru4z7-zZKi0_PWt4PgAZY2tAq65_l05d3i9JtY",
+            "filter": {
+                "objectType": "KalturaSearchAssetFilter",
+                "typeIn": "656",
+                "kSql": "(and SeriesId = 'SID_BEFALTU_08092020' Season number='1')",
+                "dynamicOrderBy": {
+                    "orderBy": "META_ASC",
+                    "objectType": "KalturaDynamicOrderBy",
+                    "name": "Episode Number"
                 }
-            })
-        };
-        const startTime = new Date().getTime();
-        const emailTime = new Date()
+            },
+            "pager": {
+                "objectType": "KalturaFilterPager",
+                "pageIndex": "1",
+                "pageSize": "500"
+            }
+        })
+    };
+    const startTime = new Date().getTime();
+    return new Promise(function (resolve, reject) {
         request(options, function (error, response) {
             if (response) {
                 const endTime = new Date().getTime();
@@ -41,56 +119,46 @@ let webSeriesAPI = () => {
                     responseTime: diff,
                     hitTime: startTime
                 }
-                // saveData(value)
-                if (diff > 1) {
-                    saveData(value)
-                    EMAILCONTROLLER.sendEmail('Web Series ',emailTime)
-                }
+                resolve(value);
             }
             else {
-                throw new Error(error);
+                reject(error);
             }
         });
-    } catch (error) {
-        throw new Error(error);
-    }
+    });
 }
 
-let videoPlayerAPI = () => {
+let videoPlayerRequest = () => {
     try {
         var options = {
             'method': 'GET',
             'url': 'http://a-fds.youborafds01.com/data?outputformat=json&system=dishindiadev&pluginVersion=6.7.35-adapterless-js&requestNumber=0.9426220496137825&timemark=1638955838474',
         };
         const startTime = new Date().getTime();
-        const emailTime = new Date()
-        request(options, function (error, response) {
-            if (response) {
-                const endTime = new Date().getTime();
-                const diff = (endTime - startTime) / 1000
-                let value = {
-                    title: 'VideoPlayerAPI',
-                    responseTime: diff,
-                    hitTime: startTime
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response) {
+                if (response) {
+                    const endTime = new Date().getTime();
+                    const diff = (endTime - startTime) / 1000
+                    let value = {
+                        title: 'VideoPlayerAPI',
+                        responseTime: diff,
+                        hitTime: startTime
+                    }
+                    resolve(value);
                 }
-                // saveData(value)
-                if (diff > 1) {
-                    saveData(value)
-                    EMAILCONTROLLER.sendEmail('Video Player ',emailTime)
+                else {
+                    reject(error);
                 }
-            }
-            else {
-                throw new Error(error);
-            }
-        });
+            });
+        })
     } catch (error) {
         throw new Error(error);
     }
 }
 
-let GetActiveSubscriptions = () => {
+let GetActiveSubscriptionsRequest = () => {
     try {
-
         var options = {
             'method': 'GET',
             'url': 'https://ottmobileapis.dishtv.in/API/SubscriptionManagement/GetActiveSubscriptions',
@@ -99,32 +167,29 @@ let GetActiveSubscriptions = () => {
             }
         };
         const startTime = new Date().getTime();
-        const emailTime = new Date()
-        request(options, function (error, response) {
-            if (response) {
-                const endTime = new Date().getTime();
-                const diff = (endTime - startTime) / 1000
-                let value = {
-                    title: 'ActiveSubscriptionsAPI',
-                    responseTime: diff,
-                    hitTime: startTime
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response) {
+                if (response) {
+                    const endTime = new Date().getTime();
+                    const diff = (endTime - startTime) / 1000
+                    let value = {
+                        title: 'ActiveSubscriptionsAPI',
+                        responseTime: diff,
+                        hitTime: startTime
+                    }
+                    resolve(value);
                 }
-                // saveData(value)
-                if (diff > 1) {
-                    saveData(value)
-                    EMAILCONTROLLER.sendEmail('Active Subscription ',emailTime)
+                else {
+                    reject(error);
                 }
-            }
-            else {
-                throw new Error(error);
-            }
-        });
+            });
+        })
     } catch (error) {
         throw new Error(error);
     }
 }
 
-let KalturaLoginAPI = () => {
+let KalturaLoginAPIRequest = () => {
     try {
         var options = {
             'method': 'POST',
@@ -151,41 +216,29 @@ let KalturaLoginAPI = () => {
             })
 
         };
-        const emailTime = new Date()
         const startTime = new Date().getTime();
-        request(options, function (error, response) {
-            if (response) {
-                const endTime = new Date().getTime();
-                const diff = (endTime - startTime) / 1000
-                let value = {
-                    title: 'kalturaLoginAPI',
-                    responseTime: diff,
-                    hitTime: startTime
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response) {
+                if (response) {
+                    const endTime = new Date().getTime();
+                    const diff = (endTime - startTime) / 1000
+                    let value = {
+                        title: 'kalturaLoginAPI',
+                        responseTime: diff,
+                        hitTime: startTime
+                    }
+                    resolve(value);
                 }
-                // saveData(value)
-                if (diff > 1) {
-                    saveData(value)
-                    EMAILCONTROLLER.sendEmail('Kaltura ', emailTime)
+                else {
+                    reject(error);
                 }
-            }
-            else {
-                throw new Error(error);
-            }
-        });
+            });
+        })
     } catch (error) {
         throw new Error(error);
     }
 }
 
-let saveData = body => new Promise((resolve, reject) => {
-    APISCHEMA.create(body, (err, data) => {
-        if (err) {
-            return reject(err);
-        } else {
-            resolve(data);
-        }
-    });
-});
 
 exports.videoPlayerAPI = videoPlayerAPI;
 exports.webSeriesAPI = webSeriesAPI;
