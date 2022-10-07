@@ -2,6 +2,8 @@ const cron = require('node-cron');
 const APICONTROLLER = require("./api.controller")
 const WATCHOCONTROLLER = require('./watcho.controller')
 const ANALYTICSCONTROLLER = require('./analytics.controller')
+const AGGREGATORCONTROLLER = require('./aggregator.controller');
+const { aggregate } = require('../models/api.schema');
 
 
 cron.schedule("*/30 * * * * *", function () {
@@ -14,8 +16,17 @@ cron.schedule("*/30 * * * * *", function () {
     ANALYTICSCONTROLLER.NewsChannelsAPI()
     ANALYTICSCONTROLLER.ProgramsAPI()
     ANALYTICSCONTROLLER.LanguagesAPI()
+    AGGREGATORCONTROLLER.zeeTokenGenAPI()
+    AGGREGATORCONTROLLER.zeeTokenCreateApi()
+    AGGREGATORCONTROLLER.ChaupalApi()
+    AGGREGATORCONTROLLER.GetActiveSubscriptionsAggregator()
+    AGGREGATORCONTROLLER.GetActiveSubscriptionsToken()
 });
 
 cron.schedule("*/45 * * * * *", function () {
     ANALYTICSCONTROLLER.LocationsAPI()
+});
+
+cron.schedule("*/180 * * * * *", function () {
+    AGGREGATORCONTROLLER.kilkkRedirectionApi()
 });
