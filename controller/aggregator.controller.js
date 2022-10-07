@@ -246,6 +246,88 @@ let GetActiveSubscriptionsToken = async () => {
         throw new Error(error);
     }
 }
+let GetPrepaidBalanceApi = async () => {
+    try {
+        let newData = await GetPrepaidBalanceRequest()
+        let query = {
+            title: 'PrepaidBalanceApi',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if(data == null){
+            saveData()
+        }
+        else{
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Prepaid Balance', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Prepaid Balance', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
+        }}
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+let GetSubscriptionHistoryApi = async () => {
+    try {
+        let newData = await GetSubscriptionHistoryRequest()
+        let query = {
+            title: 'SubscriptionHistoryApi',
+            "isActive": true,
+            "isDeleted": false,
+        }
+        var data = await APISCHEMA.findOne(query).sort({'createdAt':-1}).limit(1)
+        if(data == null){
+            saveData()
+        }
+        else{
+        if (data.flag == 1) {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmailSuccess('Subscription History', emailTime)
+            }
+        }
+        else {
+            if (newData.responseTime > 1) {
+                newData.flag = 1
+                await saveData(newData)
+                const emailTime = new Date()
+                await EMAILCONTROLLER.sendEmail('Subscription History', emailTime)
+            }
+            else {
+                newData.flag = 0
+                await saveData(newData)
+            }
+        }}
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 let saveData = body => new Promise((resolve, reject) => {
     APISCHEMA.create(body, (err, data) => {
@@ -516,6 +598,64 @@ let GetActiveSubscriptionsTokenisedRequest = () => {
         throw new Error(error);
     }
 }
+let GetPrepaidBalanceRequest = () => {
+    try {
+        var options = {
+            'method': 'GET',
+            'url': 'https://ottmobileapis.dishtv.in/Api/AppSubscriptionManagement/GetPrepaidBalance/51437819',
+        };
+        const startTime = new Date().getTime();
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response) {
+                if (response) {
+                    const endTime = new Date().getTime();
+                    const diff = (endTime - startTime) / 1000
+                    let value = {
+                        title: 'PrepaidBalanceApi',
+                        responseTime: diff,
+                        hitTime: startTime
+                    }
+                    console.log(value)
+                    resolve(value);
+                }
+                else {
+                    reject(error);
+                }
+            });
+        })
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+let GetSubscriptionHistoryRequest = () => {
+    try {
+        var options = {
+            'method': 'GET',
+            'url': 'https://ottmobileapis.dishtv.in/Api/AppSubscriptionManagement/SubscriptionHistory/51437819',
+        };
+        const startTime = new Date().getTime();
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response) {
+                if (response) {
+                    const endTime = new Date().getTime();
+                    const diff = (endTime - startTime) / 1000
+                    let value = {
+                        title: 'SubscriptionHistoryAPI',
+                        responseTime: diff,
+                        hitTime: startTime
+                    }
+                    console.log(value)
+                    resolve(value);
+                }
+                else {
+                    reject(error);
+                }
+            });
+        })
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 exports.zeeTokenCreateApi = zeeTokenCreateApi;
 exports.zeeTokenGenAPI = zeeTokenGenAPI;
@@ -523,3 +663,5 @@ exports.kilkkRedirectionApi = kilkkRedirectionApi;
 exports.ChaupalApi = ChaupalApi
 exports.GetActiveSubscriptionsAggregator = GetActiveSubscriptionsAggregator;
 exports.GetActiveSubscriptionsToken = GetActiveSubscriptionsToken;
+exports.GetPrepaidBalanceApi = GetPrepaidBalanceApi;
+exports.GetSubscriptionHistoryApi = GetSubscriptionHistoryApi;

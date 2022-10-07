@@ -16,11 +16,14 @@ cron.schedule("*/30 * * * * *", function () {
     ANALYTICSCONTROLLER.NewsChannelsAPI()
     ANALYTICSCONTROLLER.ProgramsAPI()
     ANALYTICSCONTROLLER.LanguagesAPI()
+    //Aggregator APIs
     AGGREGATORCONTROLLER.zeeTokenGenAPI()
     AGGREGATORCONTROLLER.zeeTokenCreateApi()
     AGGREGATORCONTROLLER.ChaupalApi()
     AGGREGATORCONTROLLER.GetActiveSubscriptionsAggregator()
     AGGREGATORCONTROLLER.GetActiveSubscriptionsToken()
+    AGGREGATORCONTROLLER.GetPrepaidBalanceApi()
+    AGGREGATORCONTROLLER.GetSubscriptionHistoryApi()
 });
 
 cron.schedule("*/45 * * * * *", function () {
